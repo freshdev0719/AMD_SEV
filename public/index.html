@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>아침 주식 알리미</title>
+  <meta name="theme-color" content="#0f172a">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="top">
+      <div>
+        <h1>아침 주식 알리미</h1>
+        <p class="muted" id="updated">시세를 불러오는 중…</p>
+      </div>
+      <button class="btn ghost" id="refresh" type="button" aria-label="새로고침">↻ 새로고침</button>
+    </header>
+
+    <section class="report" id="report" hidden>
+      <div class="report-head">
+        <span class="badge">오늘의 아침 리포트</span>
+        <span class="muted" id="report-time"></span>
+      </div>
+      <p class="report-title" id="report-title"></p>
+    </section>
+
+    <section aria-label="관심 종목">
+      <div class="legend muted">
+        <span><i class="dot up"></i>상승</span>
+        <span><i class="dot down"></i>하락</span>
+        <span><i class="dot flat"></i>보합</span>
+      </div>
+      <ul class="cards" id="cards"></ul>
+    </section>
+
+    <section class="panel">
+      <h2>종목 추가</h2>
+      <form id="add-form" autocomplete="off">
+        <div class="search">
+          <input id="search" type="text" placeholder="종목명 또는 6자리 코드 (예: 카카오, 035720)" aria-label="종목 검색">
+          <button class="btn" type="submit">추가</button>
+          <ul class="suggest" id="suggest" hidden></ul>
+        </div>
+      </form>
+      <p class="msg" id="add-msg" role="status"></p>
+    </section>
+
+    <section class="panel">
+      <h2>아침 알림 설정</h2>
+      <form id="settings-form" class="settings">
+        <label class="row">
+          <span>아침 알림 사용</span>
+          <input type="checkbox" id="enabled">
+        </label>
+        <label class="row">
+          <span>알림 시각 (한국 시간)</span>
+          <input type="time" id="time" required>
+        </label>
+        <label class="row">
+          <span>평일에만 알림</span>
+          <input type="checkbox" id="weekdays">
+        </label>
+        <div class="actions">
+          <button class="btn" type="submit">설정 저장</button>
+          <button class="btn ghost" type="button" id="push-btn">이 기기에서 알림 받기</button>
+          <button class="btn ghost" type="button" id="run-now">지금 리포트 보내기</button>
+        </div>
+      </form>
+      <p class="msg" id="settings-msg" role="status"></p>
+    </section>
+
+    <footer class="muted small">시세 출처: 네이버 증권 (실패 시 Yahoo Finance). 투자 판단의 책임은 본인에게 있습니다.</footer>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
