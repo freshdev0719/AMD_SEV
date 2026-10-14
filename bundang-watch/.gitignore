@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.env
+server/data/
+*.db
+
+# Xcode (project.yml에서 생성)
+ios/BundangWatch/*.xcodeproj
+ios/BundangWatch/Sources/Info.plist
+xcuserdata/
+DerivedData/
+.DS_Store
