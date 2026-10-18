@@ -1,0 +1,12 @@
+{"realPriceOnMonthList": [
+  {"tradeBaseYear": "2026", "tradeBaseMonth": "9", "realPriceList": [
+    {"tradeType": "A1", "tradeYear": "2026", "tradeMonth": 9, "tradeDate": "2", "dealPrice": 150000, "floor": 12, "deleteYn": false, "formattedPrice": "15억"},
+    {"tradeType": "A1", "tradeYear": "2026", "tradeMonth": 9, "tradeDate": "20", "dealPrice": 155000, "floor": 3, "deleteYn": true}
+  ]},
+  {"tradeBaseYear": "2026", "tradeBaseMonth": "5", "realPriceList": [
+    {"tradeType": "A1", "tradeYear": "2026", "tradeMonth": 5, "tradeDate": "11", "formattedPrice": "14억 5,000", "floor": 7}
+  ]},
+  {"tradeBaseYear": "2024", "tradeBaseMonth": "3", "realPriceList": [
+    {"tradeType": "A1", "tradeYear": "2024", "tradeMonth": 3, "tradeDate": "15", "dealPrice": 120000, "floor": 9}
+  ]}
+]}

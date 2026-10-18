@@ -1,0 +1,5 @@
+{"complexList": [
+  {"complexNo": "1001", "complexName": "샘플마을1단지", "cortarNo": "4113510900", "realEstateTypeCode": "APT", "realEstateTypeName": "아파트", "detailAddress": "10", "cortarAddress": "경기도 성남시 분당구 수내동", "latitude": 37.37, "longitude": 127.11, "totalHouseholdCount": 1156, "totalBuildingCount": 12, "highFloor": 25, "lowFloor": 15, "useApproveYmd": "19940512", "dealCount": 14, "leaseCount": 8, "rentCount": 3},
+  {"complexNo": "1002", "complexName": "샘플오피스텔", "realEstateTypeCode": "OPST", "totalHouseholdCount": 300, "useApproveYmd": "20150101", "dealCount": 3},
+  {"complexNo": "1003", "complexName": "샘플마을2단지", "realEstateTypeCode": "APT", "cortarAddress": "경기도 성남시 분당구 수내동", "totalHouseholdCount": 412, "useApproveYmd": "201003", "dealCount": 0}
+]}

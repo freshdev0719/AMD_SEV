@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>집찾기</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%8F%A0%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>집찾기 <small>네이버 부동산 단지·매물</small></h1>
+    <span id="source-badge" class="badge"></span>
+    <button id="settings-btn" class="ghost" type="button">설정</button>
+  </header>
+
+  <div class="layout">
+    <form id="criteria" class="sidebar" autocomplete="off">
+      <section>
+        <h2>지역</h2>
+        <label>시·도 <select id="sido"></select></label>
+        <label>시·군·구 <select id="sigungu" disabled></select></label>
+        <div class="dong-head">
+          <span>읍·면·동</span>
+          <button id="dong-all" class="link" type="button">전체 선택</button>
+        </div>
+        <div id="dongs" class="dongs"><p class="muted">시·군·구를 고르세요.</p></div>
+      </section>
+
+      <section>
+        <h2>매물 조건</h2>
+        <div class="range">
+          <label>매매 호가 (억)
+            <span><input name="price_min" type="number" step="0.5" min="0" placeholder="최소"> ~
+            <input name="price_max" type="number" step="0.5" min="0" placeholder="최대"></span>
+          </label>
+        </div>
+        <div class="range">
+          <label>전용면적 (㎡)
+            <span><input name="area_min" type="number" step="1" min="0" placeholder="최소"> ~
+            <input name="area_max" type="number" step="1" min="0" placeholder="최대"></span>
+          </label>
+          <p id="area-hint" class="muted small"></p>
+        </div>
+        <label class="check"><input name="exclude_low_floor" type="checkbox"> 저층 제외 (1~2층·'저')</label>
+        <label class="check"><input name="south_only" type="checkbox"> 남향 계열만 (남·남동·남서)</label>
+        <label>매물 확인일
+          <select name="confirmed_within_days">
+            <option value="">전체</option>
+            <option value="7">7일 이내</option>
+            <option value="14">14일 이내</option>
+            <option value="30">30일 이내</option>
+          </select>
+        </label>
+        <label>실거래 대비 호가 상한
+          <select name="max_gap">
+            <option value="">제한 없음</option>
+            <option value="-0.05">실거래보다 5% 이상 싼 매물</option>
+            <option value="0">실거래 이하</option>
+            <option value="0.05">실거래 +5% 이하</option>
+            <option value="0.1">실거래 +10% 이하</option>
+          </select>
+        </label>
+      </section>
+
+      <section>
+        <h2>단지 조건</h2>
+        <label>세대수 이상 <input name="households_min" type="number" step="100" min="0" placeholder="예: 500"></label>
+        <div class="range">
+          <label>준공연도
+            <span><input name="build_year_min" type="number" min="1970" max="2035" placeholder="부터"> ~
+            <input name="build_year_max" type="number" min="1970" max="2035" placeholder="까지"></span>
+          </label>
+        </div>
+        <label>실거래 비교 기간
+          <select name="real_months">
+            <option value="6">최근 6개월</option>
+            <option value="12" selected>최근 1년</option>
+            <option value="24">최근 2년</option>
+          </select>
+        </label>
+      </section>
+
+      <div class="actions">
+        <button id="search-btn" class="primary" type="submit">단지 찾기</button>
+        <button id="cancel-btn" class="ghost" type="button" hidden>취소</button>
+      </div>
+      <div id="progress" class="progress" hidden>
+        <div class="bar"><div id="progress-fill"></div></div>
+        <p id="progress-text" class="muted small"></p>
+      </div>
+    </form>
+
+    <main class="content">
+      <section class="panel">
+        <div class="panel-head">
+          <h2 id="results-title">단지</h2>
+          <span id="results-meta" class="muted small"></span>
+        </div>
+        <div id="warnings"></div>
+        <div class="table-wrap" id="results-wrap">
+          <table id="results">
+            <thead>
+              <tr>
+                <th data-key="name">단지</th>
+                <th data-key="address">위치</th>
+                <th data-key="households" class="num">세대수</th>
+                <th data-key="build_year" class="num">준공</th>
+                <th data-key="matched_count" class="num">조건 매물</th>
+                <th data-key="min_price" class="num">최저 호가</th>
+                <th data-key="real_median" class="num" title="최저 호가 매물과 같은 면적의 실거래 중위가">실거래 중위가</th>
+                <th data-key="min_gap" class="num" title="조건에 맞는 매물 중 같은 면적 실거래 중위가 대비 가장 싼 매물의 비율">최저 괴리율</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <p id="results-empty" class="empty">왼쪽에서 지역과 조건을 고르고 <b>단지 찾기</b>를 누르세요.</p>
+        </div>
+      </section>
+
+      <section class="panel" id="detail" hidden>
+        <div class="panel-head">
+          <h2 id="detail-title"></h2>
+          <span id="detail-meta" class="muted small"></span>
+          <label class="check inline"><input id="show-all" type="checkbox"> 조건 무시하고 전체 매물 보기</label>
+          <a id="detail-link" class="link" target="_blank" rel="noopener" hidden>네이버에서 보기 ↗</a>
+        </div>
+        <div id="real-summary" class="chips"></div>
+        <div class="table-wrap">
+          <table id="listings">
+            <thead>
+              <tr>
+                <th>동·층</th>
+                <th class="num">전용(평)</th>
+                <th>타입</th>
+                <th>향</th>
+                <th class="num">호가</th>
+                <th class="num">실거래 대비</th>
+                <th>확인일</th>
+                <th>특징</th>
+                <th>중개사</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <p id="listings-empty" class="empty" hidden>조건에 맞는 매물이 없습니다.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="settings">
+    <form method="dialog" id="settings-form">
+      <h2>설정</h2>
+      <p class="muted small">
+        네이버 부동산은 공식 API가 없어 웹사이트가 쓰는 내부 API를 사용합니다.
+        조회가 안 되면 브라우저에서 new.land.naver.com을 연 뒤 개발자도구(⌥⌘I) → 네트워크 탭에서
+        <code>api/</code> 요청의 <code>authorization</code> 값(Bearer 뒤 부분)과 <code>cookie</code> 값을 복사해 넣으세요.
+        비워 두면 자동으로 가져옵니다.
+      </p>
+      <label>토큰 <input name="token" type="text" placeholder="자동"></label>
+      <label>쿠키 <textarea name="cookie" rows="3" placeholder="선택"></textarea></label>
+      <label>요청 간격 (초) <input name="min_interval" type="number" step="0.1" min="0.3"></label>
+      <p class="muted small">요청 간격이 짧으면 네이버가 접속을 제한할 수 있습니다. 1초 이상을 권장합니다.</p>
+      <div class="actions">
+        <button id="clear-cache" class="ghost" type="button">캐시 비우기</button>
+        <span class="spacer"></span>
+        <button value="cancel" class="ghost" type="submit">닫기</button>
+        <button id="save-settings" class="primary" type="button">저장</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

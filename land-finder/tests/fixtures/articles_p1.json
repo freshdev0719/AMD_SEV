@@ -1,0 +1,5 @@
+{"isMoreData": true, "articleList": [
+  {"articleNo": "2401", "articleName": "샘플마을1단지", "realEstateTypeName": "아파트", "tradeTypeName": "매매", "tradeTypeCode": "A1", "floorInfo": "10/25", "dealOrWarrantPrc": "15억 7,500", "area1": 112, "area2": 84.97, "areaName": "112", "direction": "남향", "articleConfirmYmd": "20261015", "articleFeatureDesc": "올수리 로열층", "tagList": ["25년이내", "대단지"], "buildingName": "101동", "realtorName": "샘플공인", "sameAddrCnt": 3},
+  {"articleNo": "2402", "floorInfo": "저/25", "dealOrWarrantPrc": "14억", "area1": 112, "area2": 84.91, "direction": "동향", "articleConfirmYmd": "20261001", "buildingName": "103동"},
+  {"articleNo": "2403", "floorInfo": "2/25", "dealOrWarrantPrc": "11억 2,000", "area1": 79, "area2": 59.88, "direction": "남서향", "articleConfirmYmd": "20261012", "buildingName": "105동"}
+]}

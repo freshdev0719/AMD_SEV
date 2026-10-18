@@ -1,0 +1,5 @@
+fastapi>=0.100
+uvicorn>=0.23
+httpx>=0.24
+# 맥에서 네이티브 창을 띄우는 데 사용 (없으면 브라우저로 열림)
+pywebview>=4.0; sys_platform == "darwin"

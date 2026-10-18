@@ -1,0 +1,6 @@
+{"complexDetail": {"complexNo": "1001", "complexName": "샘플마을1단지"},
+ "complexPyeongDetailList": [
+  {"pyeongNo": "1", "pyeongName": "79A", "pyeongName2": "24A", "supplyArea": "79.33", "exclusiveArea": "59.88", "householdCountByPyeong": 300},
+  {"pyeongNo": "2", "pyeongName": "112", "supplyArea": "112.4", "exclusiveArea": "84.97", "householdCountByPyeong": 600},
+  {"pyeongNo": "3", "pyeongName": "112B", "supplyArea": "112.9", "exclusiveArea": "84.91"}
+]}
